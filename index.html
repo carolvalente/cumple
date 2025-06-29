@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fiesta con Globos y Pastel</title>
+
+<!-- Fuente Fredoka One -->
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet" />
+
+<style>
+  body {
+    margin: 0; padding: 0;
+    background: #000;
+    font-family: 'Fredoka One', cursive, Arial, sans-serif;
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+  }
+
+  /* Contenedor principal */
+  #container {
+    max-width: 700px;
+    margin: 20px auto 0 auto;
+    padding: 0 15px;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Fila de globos */
+  #balloons-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .balloon {
+    width: 60px;
+    height: 80px;
+    font-size: 3rem;
+    line-height: 80px;
+    text-align: center;
+    user-select: none;
+    animation: balloonFloat linear infinite;
+  }
+  .red { color: #ff4d4d; }
+  .blue { color: #4da6ff; }
+  .yellow { color: #ffdb4d; }
+  .green { color: #4dff88; }
+  .pink { color: #ff99cc; }
+  .orange { color: #ff9933; }
+
+  @keyframes balloonFloat {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* Texto Feliz Cumpleaños */
+  #main-title {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ff0000;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 8px rgba(255,0,0,0.7);
+  }
+
+  /* Texto inferior */
+  #messages p {
+    margin: 6px 0;
+    font-size: 1.8rem;
+    color: white;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+  }
+
+  /* Pastel rosa medio oscuro */
+  #cake {
+    margin: 50px auto 60px auto; /* más espacio arriba para separar del texto */
+    width: 180px;
+    height: 180px;
+    position: relative;
+    z-index: 5;
+  }
+  .cake-base {
+    width: 180px;
+    height: 120px;
+    background: linear-gradient(135deg, #b35c6b, #8b3a4d); /* rosa medio oscuro */
+    border-radius: 25px 25px 10px 10px;
+    box-shadow: 0 7px 15px rgba(0,0,0,0.5);
+  }
+  .cake-frosting {
+    position: absolute;
+    top: -30px;
+    left: 0;
+    width: 180px;
+    height: 50px;
+    background: linear-gradient(135deg, #d78a9a, #b35c6b);
+    border-radius: 25px 25px 0 0;
+    box-shadow: 0 5px 8px rgba(255,255,255,0.3);
+  }
+  .candle {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 50px;
+    background: #feca57;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #feca57;
+  }
+  .flame {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    background: radial-gradient(circle at center, #fff200 60%, transparent 100%);
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: flicker 1s infinite alternate;
+  }
+  @keyframes flicker {
+    0% { opacity: 0.8; }
+    100% { opacity: 0.4; }
+  }
+
+  /* Globos flotantes sin carita (fondo) */
+  #floating-balloons {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 1;
+  }
+  .floating-balloon {
+    position: absolute;
+    width: 40px;
+    height: 55px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    box-shadow: inset -3px -3px 10px rgba(0,0,0,0.1);
+    opacity: 0.9;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  .floating-red { background: #ff4d4d; }
+  .floating-blue { background: #4da6ff; }
+  .floating-yellow { background: #ffdb4d; }
+  .floating-green { background: #4dff88; }
+  .floating-pink { background: #ff99cc; }
+  .floating-orange { background: #ff9933; }
+
+  @keyframes floatingUp {
+    0% {
+      transform: translateY(100vh) translateX(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-150vh) translateX(40px) rotate(15deg);
+      opacity: 0;
+    }
+  }
+
+  /* Fuegos artificiales explosivos */
+  .firework {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: red;
+    animation: fireworkLaunch 1.5s ease-out forwards;
+  }
+  @keyframes fireworkLaunch {
+    0% {
+      transform: translateY(100vh) scale(1);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 0;
+    }
+  }
+
+  .spark {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    animation: sparkAnim 1.2s ease-out forwards;
+  }
+  @keyframes sparkAnim {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--x), var(--y)) scale(0);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+
+  <!-- Fila de globos con caritas -->
+  <div id="balloons-row">
+    <div class="balloon red">😊</div>
+    <div class="balloon blue">😄</div>
+    <div class="balloon yellow">😃</div>
+    <div class="balloon green">😁</div>
+    <div class="balloon pink">😆</div>
+    <div class="balloon orange">😅</div>
+  </div>
+
+  <!-- Texto principal -->
+  <div id="main-title">¡Feliz Cumpleaños!</div>
+
+  <!-- Texto inferior -->
+  <div id="messages">
+    <p>Espero que tengas un gran día,</p>
+    <p>de alguna forma te doy gracias por llegar a mi vida,</p>
+    <p>te mereces todo lo bonito de este mundoooo y recuerda siempre que eres de lo mejor, ajajaja</p>
+    <p>(posdata: no te vayas con la Abi xd)</p>
+  </div>
+
+  <!-- Pastel rosa medio oscuro más abajo -->
+  <div id="cake">
+    <div class="cake-base"></div>
+    <div class="cake-frosting"></div>
+    <div class="candle">
+      <div class="flame"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Globos flotantes sin carita -->
+<div id="floating-balloons"></div>
+
+<!-- Contenedor para fuegos artificiales -->
+<div id="fireworks-container"></div>
+
+<script>
+  const floatingColors = ['floating-red', 'floating-blue', 'floating-yellow', 'floating-green', 'floating-pink', 'floating-orange'];
+  const fireworksColors = ['#ff4d4d', '#4da6ff', '#ffdb4d', '#4dff88', '#ff9ff3', '#f0932b', '#f542e0', '#42f5e0', '#f5e042'];
+
+  // Globos flotantes sin carita
+  function createFloatingBalloons() {
+    const container = document.getElementById('floating-balloons');
+    container.innerHTML = '';
+    for(let i = 0; i < 50; i++) {
+      const balloon = document.createElement('div');
+      const colorClass = floatingColors[Math.floor(Math.random() * floatingColors.length)];
+      balloon.className = 'floating-balloon ' + colorClass;
+      balloon.style.left = Math.random() * 100 + 'vw';
+      const duration = 4000 + Math.random() * 3000;
+      balloon.style.animation = `floatingUp ${duration}ms linear forwards`;
+      balloon.style.animationDelay = (Math.random() * 8000) + 'ms';
+      container.appendChild(balloon);
+      setTimeout(() => {
+        if(balloon.parentNode) balloon.parentNode.removeChild(balloon);
+      }, duration + 8000);
+    }
+  }
+
+  // Fuegos artificiales explosivos con lanzamiento y explosión
+  function createFireworks() {
+    for(let i = 0; i < 70; i++) {
+      setTimeout(() => {
+        launchFirework();
+      }, i * 200);
+    }
+  }
+
+  // Lanzar un fuego artificial y luego explotar
+  function launchFirework() {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * (window.innerHeight * 0.6) + 50;
+
+    const firework = document.createElement('div');
+    firework.className = 'firework';
+    firework.style.left = x + 'px';
+    firework.style.top = window.innerHeight + 'px';
+    firework.style.backgroundColor = fireworksColors[Math.floor(Math.random() * fireworksColors.length)];
+    document.body.appendChild(firework);
+
+    firework.animate([
+      { transform: `translateY(0)` , opacity: 1 },
+      { transform: `translateY(-${window.innerHeight - y}px)`, opacity: 1 }
+    ], {
+      duration: 1500,
+      easing: 'ease-out'
+    });
+
+    setTimeout(() => {
+      createExplosion(x, y);
+      if(firework.parentNode) firework.parentNode.removeChild(firework);
+    }, 1500);
+  }
+
+  // Crear explosión de partículas
+  function createExplosion(x, y) {
+    const particleCount = 30;
+    for(let i = 0; i < particleCount; i++) {
+      const spark = document.createElement('div');
+      spark.className = 'spark';
+      spark.style.left = x + 'px';
+      spark.style.top = y + 'px';
+      spark.style.backgroundColor = fireworksColors[Math.floor(Math.random() * fireworksColors.length)];
+
+      const angle = (360 / particleCount) * i;
+      const distance = 120 + Math.random() * 100;
+      const radians = angle * (Math.PI / 180);
+
+      const moveX = Math.cos(radians) * distance;
+      const moveY = Math.sin(radians) * distance;
+
+      spark.style.setProperty('--x', moveX + 'px');
+      spark.style.setProperty('--y', moveY + 'px');
+
+      document.body.appendChild(spark);
+
+      spark.animate([
+        { transform: 'translate(0,0) scale(1)', opacity: 1 },
+        { transform: `translate(${moveX}px, ${moveY}px) scale(0)`, opacity: 0 }
+      ], {
+        duration: 1300,
+        easing: 'ease-out'
+      });
+
+      setTimeout(() => {
+        if(spark.parentNode) spark.parentNode.removeChild(spark);
+      }, 1300);
+    }
+  }
+
+  // Ejecutar animaciones y repetir
+  function startAnimation() {
+    createFloatingBalloons();
+    createFireworks();
+    setInterval(() => {
+      createFloatingBalloons();
+      createFireworks();
+    }, 15000);
+  }
+
+  window.onload = startAnimation;
+</script>
+
+</body>
+</html>
